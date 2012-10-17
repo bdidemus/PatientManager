@@ -1,0 +1,1091 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PatientManagerModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.1" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="PatientManagerModelStoreContainer">
+          <EntitySet Name="appointment" EntityType="PatientManagerModel.Store.appointment" store:Type="Tables" Schema="PatientManager" />
+          <EntitySet Name="category" EntityType="PatientManagerModel.Store.category" store:Type="Tables" Schema="PatientManager" />
+          <EntitySet Name="country" EntityType="PatientManagerModel.Store.country" store:Type="Tables" Schema="PatientManager" />
+          <EntitySet Name="doc_type" EntityType="PatientManagerModel.Store.doc_type" store:Type="Tables" Schema="PatientManager" />
+          <EntitySet Name="doctor" EntityType="PatientManagerModel.Store.doctor" store:Type="Tables" Schema="PatientManager" />
+          <EntitySet Name="inv_line" EntityType="PatientManagerModel.Store.inv_line" store:Type="Tables" Schema="PatientManager" />
+          <EntitySet Name="inventory" EntityType="PatientManagerModel.Store.inventory" store:Type="Tables" Schema="PatientManager" />
+          <EntitySet Name="invoice" EntityType="PatientManagerModel.Store.invoice" store:Type="Tables" Schema="PatientManager" />
+          <EntitySet Name="loginuser" EntityType="PatientManagerModel.Store.loginuser" store:Type="Tables" Schema="PatientManager" />
+          <EntitySet Name="patient" EntityType="PatientManagerModel.Store.patient" store:Type="Tables" Schema="PatientManager" />
+          <EntitySet Name="payment" EntityType="PatientManagerModel.Store.payment" store:Type="Tables" Schema="PatientManager" />
+          <EntitySet Name="payment_type" EntityType="PatientManagerModel.Store.payment_type" store:Type="Tables" Schema="PatientManager" />
+          <EntitySet Name="reminder" EntityType="PatientManagerModel.Store.reminder" store:Type="Tables" Schema="PatientManager" />
+          <EntitySet Name="usr_reminder" EntityType="PatientManagerModel.Store.usr_reminder" store:Type="Tables" Schema="PatientManager" />
+          <EntitySet Name="AccountingTotal" EntityType="PatientManagerModel.Store.AccountingTotal" store:Type="Views" store:Schema="PatientManager" store:Name="AccountingTotal">
+            <DefiningQuery>SELECT
+      `AccountingTotal`.`date`, 
+      `AccountingTotal`.`total`, 
+      `AccountingTotal`.`docID`, 
+      `AccountingTotal`.`TYPE`
+      FROM `AccountingTotal` AS `AccountingTotal`</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="PatientAccountHistoryView" EntityType="PatientManagerModel.Store.PatientAccountHistoryView" store:Type="Views" store:Schema="PatientManager" store:Name="PatientAccountHistoryView">
+            <DefiningQuery>SELECT
+      `PatientAccountHistoryView`.`Date`, 
+      `PatientAccountHistoryView`.`patID`, 
+      `PatientAccountHistoryView`.`Type`, 
+      `PatientAccountHistoryView`.`Description`, 
+      `PatientAccountHistoryView`.`itryQty`, 
+      `PatientAccountHistoryView`.`Amount`, 
+      `PatientAccountHistoryView`.`docID`
+      FROM `PatientAccountHistoryView` AS `PatientAccountHistoryView`</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+        <EntityType Name="appointment">
+          <Key>
+            <PropertyRef Name="appID" />
+          </Key>
+          <Property Name="appID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="appDate" Type="datetime" Nullable="false" />
+          <Property Name="appDuration" Type="int" Nullable="false" />
+          <Property Name="appNote" Type="text" />
+          <Property Name="patID" Type="int" />
+          <Property Name="docID" Type="int" />
+          <Property Name="appDateCreate" Type="timestamp" Nullable="false" Precision="0" />
+          <Property Name="appStatusID" Type="int" Nullable="false" />
+          <Property Name="appColour" Type="char" MaxLength="7" />
+          <Property Name="appAutoRenew" Type="bool" />
+          <Property Name="appRenewIntervalID" Type="int" />
+          <Property Name="usrName" Type="varchar" MaxLength="20" />
+          <Property Name="itryID" Type="int" />
+        </EntityType>
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="catID" />
+          </Key>
+          <Property Name="catID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="catDesc" Type="varchar" Nullable="false" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="country">
+          <Key>
+            <PropertyRef Name="iso" />
+          </Key>
+          <Property Name="iso" Type="char" Nullable="false" MaxLength="2" />
+          <Property Name="name" Type="varchar" Nullable="false" MaxLength="80" />
+          <Property Name="printable_name" Type="varchar" Nullable="false" MaxLength="80" />
+          <Property Name="iso3" Type="char" MaxLength="3" />
+          <Property Name="numcode" Type="smallint" />
+        </EntityType>
+        <EntityType Name="doc_type">
+          <Key>
+            <PropertyRef Name="docTypeID" />
+          </Key>
+          <Property Name="docTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="dtDec" Type="varchar" Nullable="false" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="doctor">
+          <Key>
+            <PropertyRef Name="docID" />
+          </Key>
+          <Property Name="docID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="docFirstName" Type="varchar" Nullable="false" MaxLength="25" />
+          <Property Name="docLastName" Type="varchar" MaxLength="30" />
+          <Property Name="docAddress" Type="varchar" MaxLength="75" />
+          <Property Name="docCity" Type="varchar" MaxLength="30" />
+          <Property Name="iso" Type="char" MaxLength="2" />
+          <Property Name="docPCode" Type="varchar" MaxLength="6" />
+          <Property Name="docOfficeNumber" Type="varchar" MaxLength="20" />
+          <Property Name="dovSecondaryNumber" Type="varchar" MaxLength="20" />
+          <Property Name="docMobileNumber" Type="varchar" MaxLength="20" />
+          <Property Name="docLicence" Type="varchar" MaxLength="20" />
+          <Property Name="docLicence2" Type="varchar" MaxLength="20" />
+          <Property Name="docDateCreated" Type="timestamp" Nullable="false" Precision="0" />
+          <Property Name="docDefaultColour" Type="char" MaxLength="7" />
+          <Property Name="docTypeID" Type="int" />
+          <Property Name="docActive" Type="bool" />
+          <Property Name="docDefault" Type="bool" />
+        </EntityType>
+        <EntityType Name="inv_line">
+          <Key>
+            <PropertyRef Name="invID" />
+            <PropertyRef Name="itryID" />
+          </Key>
+          <Property Name="invID" Type="int" Nullable="false" />
+          <Property Name="itryID" Type="int" Nullable="false" />
+          <Property Name="itryQty" Type="int" Nullable="false" />
+          <Property Name="linePrice" Type="decimal" Scale="2" />
+        </EntityType>
+        <EntityType Name="inventory">
+          <Key>
+            <PropertyRef Name="itryID" />
+          </Key>
+          <Property Name="itryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="itryName" Type="varchar" Nullable="false" MaxLength="30" />
+          <Property Name="itryDesc" Type="varchar" MaxLength="50" />
+          <Property Name="itryCost" Type="decimal" Scale="2" />
+          <Property Name="itryMarkup" Type="int" />
+          <Property Name="itrySellingPrive" Type="decimal" Scale="2" />
+          <Property Name="itryStock" Type="int" />
+          <Property Name="itryActive" Type="bool" />
+          <Property Name="catID" Type="int" />
+        </EntityType>
+        <EntityType Name="invoice">
+          <Key>
+            <PropertyRef Name="invID" />
+          </Key>
+          <Property Name="invID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="invDate" Type="timestamp" Nullable="false" Precision="0" />
+          <Property Name="patID" Type="int" />
+          <Property Name="invStatus" Type="int" />
+          <Property Name="invCommitted" Type="bool" />
+          <Property Name="docID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="loginuser">
+          <Key>
+            <PropertyRef Name="usrName" />
+          </Key>
+          <Property Name="usrName" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="usrPassword" Type="char" Nullable="false" MaxLength="32" />
+          <Property Name="usrDateCreated" Type="timestamp" Nullable="false" Precision="0" />
+          <Property Name="usrLastLogin" Type="timestamp" Nullable="false" Precision="0" />
+          <Property Name="usrActive" Type="bool" Nullable="false" />
+        </EntityType>
+        <EntityType Name="patient">
+          <Key>
+            <PropertyRef Name="patID" />
+          </Key>
+          <Property Name="patID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="patFirstName" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="patLastName" Type="varchar" Nullable="false" MaxLength="40" />
+          <Property Name="patDateCreate" Type="timestamp" Nullable="false" Precision="0" />
+          <Property Name="patSex" Type="bit" />
+          <Property Name="patOHIP" Type="char" MaxLength="10" />
+          <Property Name="patHealthCard" Type="char" MaxLength="10" />
+          <Property Name="patInsuranceNum" Type="varchar" MaxLength="15" />
+          <Property Name="patInsuranceProv" Type="varchar" MaxLength="20" />
+          <Property Name="patAddress" Type="varchar" MaxLength="50" />
+          <Property Name="patAddress2" Type="varchar" MaxLength="50" />
+          <Property Name="patPhoneNumber" Type="varchar" MaxLength="10" />
+          <Property Name="patMobileNumber" Type="varchar" MaxLength="10" />
+          <Property Name="patSecNumber" Type="varchar" MaxLength="10" />
+          <Property Name="patPCode" Type="char" MaxLength="6" />
+          <Property Name="patBirthday" Type="date" />
+          <Property Name="patReferedBy" Type="varchar" MaxLength="50" />
+          <Property Name="patCity" Type="varchar" MaxLength="30" />
+          <Property Name="iso" Type="char" MaxLength="2" />
+          <Property Name="patProv" Type="varchar" MaxLength="4" />
+          <Property Name="patNotes" Type="text" />
+          <Property Name="patFlag" Type="varchar" MaxLength="4" />
+          <Property Name="docID" Type="int" Nullable="false" />
+          <Property Name="patActive" Type="bool" />
+        </EntityType>
+        <EntityType Name="payment">
+          <Key>
+            <PropertyRef Name="payID" />
+          </Key>
+          <Property Name="payID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="payAmount" Type="decimal" Nullable="false" Scale="2" />
+          <Property Name="payDate" Type="timestamp" Nullable="false" Precision="0" />
+          <Property Name="ptID" Type="int" Nullable="false" />
+          <Property Name="patID" Type="int" Nullable="false" />
+          <Property Name="payVoid" Type="bool" />
+          <Property Name="docID" Type="int" Nullable="false" />
+          <Property Name="invID" Type="int" />
+        </EntityType>
+        <EntityType Name="payment_type">
+          <Key>
+            <PropertyRef Name="ptID" />
+          </Key>
+          <Property Name="ptID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ptName" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="reminder">
+          <Key>
+            <PropertyRef Name="remID" />
+          </Key>
+          <Property Name="remID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="remDateCreated" Type="timestamp" Nullable="false" Precision="0" />
+          <Property Name="remTargetDate" Type="date" Nullable="false" />
+          <Property Name="remNote" Type="text" />
+          <Property Name="remInterval" Type="int" />
+          <Property Name="remActive" Type="bool" />
+        </EntityType>
+        <EntityType Name="usr_reminder">
+          <Key>
+            <PropertyRef Name="usrName" />
+            <PropertyRef Name="remID" />
+          </Key>
+          <Property Name="usrName" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="remID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'PatientManager.AccountingTotal' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="AccountingTotal">
+          <Key>
+            
+            <PropertyRef Name="TYPE" />
+          </Key>
+          <Property Name="date" Type="date" />
+          <Property Name="total" Type="decimal" Precision="42" Scale="2" />
+          <Property Name="docID" Type="int" Nullable="false" />
+          <Property Name="TYPE" Type="varchar" Nullable="false" MaxLength="7" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'PatientManager.PatientAccountHistoryView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="PatientAccountHistoryView">
+          <Key>
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="docID" />
+          </Key>
+          <Property Name="Date" Type="date" />
+          <Property Name="patID" Type="int" />
+          <Property Name="Type" Type="varchar" Nullable="false" MaxLength="30" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="itryQty" Type="int" />
+          <Property Name="Amount" Type="decimal" Scale="2" />
+          <Property Name="docID" Type="int" Nullable="false" />
+        </EntityType>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PatientManagerModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="PatientManagerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="appointments" EntityType="PatientManagerModel.appointment" />
+          <EntitySet Name="categories" EntityType="PatientManagerModel.category" />
+          <EntitySet Name="countries" EntityType="PatientManagerModel.country" />
+          <EntitySet Name="doc_type" EntityType="PatientManagerModel.doc_type" />
+          <EntitySet Name="doctors" EntityType="PatientManagerModel.doctor" />
+          <EntitySet Name="inv_line" EntityType="PatientManagerModel.inv_line" />
+          <EntitySet Name="inventories" EntityType="PatientManagerModel.inventory" />
+          <EntitySet Name="invoices" EntityType="PatientManagerModel.invoice" />
+          <EntitySet Name="loginusers" EntityType="PatientManagerModel.loginuser" />
+          <EntitySet Name="patients" EntityType="PatientManagerModel.patient" />
+          <EntitySet Name="reminders" EntityType="PatientManagerModel.reminder" />
+          <EntitySet Name="usr_reminder" EntityType="PatientManagerModel.usr_reminder" />
+          <AssociationSet Name="doctorpatient" Association="PatientManagerModel.doctorpatient">
+            <End Role="doctor" EntitySet="doctors" />
+            <End Role="patient" EntitySet="patients" />
+          </AssociationSet>
+          <AssociationSet Name="patientcountry" Association="PatientManagerModel.patientcountry">
+            <End Role="patient" EntitySet="patients" />
+            <End Role="country" EntitySet="countries" />
+          </AssociationSet>
+          <AssociationSet Name="invoiceinv_line" Association="PatientManagerModel.invoiceinv_line">
+            <End Role="invoice" EntitySet="invoices" />
+            <End Role="inv_line" EntitySet="inv_line" />
+          </AssociationSet>
+          <AssociationSet Name="inventoryinv_line" Association="PatientManagerModel.inventoryinv_line">
+            <End Role="inventory" EntitySet="inventories" />
+            <End Role="inv_line" EntitySet="inv_line" />
+          </AssociationSet>
+          <AssociationSet Name="patientappointment" Association="PatientManagerModel.patientappointment">
+            <End Role="patient" EntitySet="patients" />
+            <End Role="appointment" EntitySet="appointments" />
+          </AssociationSet>
+          <AssociationSet Name="doctorappointment" Association="PatientManagerModel.doctorappointment">
+            <End Role="doctor" EntitySet="doctors" />
+            <End Role="appointment" EntitySet="appointments" />
+          </AssociationSet>
+          <AssociationSet Name="doctordoc_type" Association="PatientManagerModel.doctordoc_type">
+            <End Role="doctor" EntitySet="doctors" />
+            <End Role="doc_type" EntitySet="doc_type" />
+          </AssociationSet>
+          <AssociationSet Name="invoicepatient" Association="PatientManagerModel.invoicepatient">
+            <End Role="invoice" EntitySet="invoices" />
+            <End Role="patient" EntitySet="patients" />
+          </AssociationSet>
+          <AssociationSet Name="inventorycategory" Association="PatientManagerModel.inventorycategory">
+            <End Role="inventory" EntitySet="inventories" />
+            <End Role="category" EntitySet="categories" />
+          </AssociationSet>
+          <EntitySet Name="payment_type" EntityType="PatientManagerModel.payment_type" />
+          <EntitySet Name="payments" EntityType="PatientManagerModel.payment" />
+          <AssociationSet Name="paymentpatient" Association="PatientManagerModel.paymentpatient">
+            <End EntitySet="payments" Role="payment" />
+            <End EntitySet="patients" Role="patient" />
+          </AssociationSet>
+          <AssociationSet Name="payment_typepayment" Association="PatientManagerModel.payment_typepayment">
+            <End EntitySet="payment_type" Role="payment_type" />
+            <End EntitySet="payments" Role="payment" />
+          </AssociationSet>
+          <EntitySet Name="AccountingTotals" EntityType="PatientManagerModel.AccountingTotal" />
+          <AssociationSet Name="AccountingTotaldoctor" Association="PatientManagerModel.AccountingTotaldoctor">
+            <End Role="AccountingTotal" EntitySet="AccountingTotals" />
+            <End Role="doctor" EntitySet="doctors" />
+          </AssociationSet>
+          <AssociationSet Name="invoicedoctor" Association="PatientManagerModel.invoicedoctor">
+            <End Role="invoice" EntitySet="invoices" />
+            <End Role="doctor" EntitySet="doctors" />
+          </AssociationSet>
+          <AssociationSet Name="paymentdoctor" Association="PatientManagerModel.paymentdoctor">
+            <End EntitySet="payments" Role="payment" />
+            <End EntitySet="doctors" Role="doctor" />
+          </AssociationSet>
+          <EntitySet Name="PatientAccountHistoryViews" EntityType="PatientManagerModel.PatientAccountHistoryView" />
+          <AssociationSet Name="PatientAccountHistoryViewpatient" Association="PatientManagerModel.PatientAccountHistoryViewpatient">
+            <End Role="PatientAccountHistoryView" EntitySet="PatientAccountHistoryViews" />
+            <End Role="patient" EntitySet="patients" />
+          </AssociationSet>
+          <AssociationSet Name="paymentinvoice" Association="PatientManagerModel.paymentinvoice">
+            <End Role="payment" EntitySet="payments" />
+            <End Role="invoice" EntitySet="invoices" />
+          </AssociationSet>
+          <AssociationSet Name="PatientAccountHistoryViewdoctor" Association="PatientManagerModel.PatientAccountHistoryViewdoctor">
+            <End Role="PatientAccountHistoryView" EntitySet="PatientAccountHistoryViews" />
+            <End Role="doctor" EntitySet="doctors" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="appointment">
+          <Key>
+            <PropertyRef Name="appID" />
+          </Key>
+          <Property Name="appID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="appDate" Type="DateTime" Nullable="false" />
+          <Property Name="appNote" Type="String" />
+          <Property Name="patID" Type="Int32" />
+          <Property Name="docID" Type="Int32" />
+          <Property Name="appDateCreate" Type="DateTime" Nullable="false" />
+          <Property Name="appStatusID" Type="Int32" Nullable="false" />
+          <Property Name="appAutoRenew" Type="Boolean" />
+          <Property Name="appRenewIntervalID" Type="Int32" />
+          <NavigationProperty Name="patient" Relationship="PatientManagerModel.patientappointment" FromRole="appointment" ToRole="patient" />
+          <NavigationProperty Name="doctor" Relationship="PatientManagerModel.doctorappointment" FromRole="appointment" ToRole="doctor" />
+          <Property Type="Int32" Name="appDuration" Nullable="false" />
+          <Property Type="String" Name="appColour" />
+          <Property Type="String" Name="usrName" />
+          <Property Type="Int32" Name="itryID" />
+        </EntityType>
+        <EntityType Name="category">
+          <Key>
+            <PropertyRef Name="catID" />
+          </Key>
+          <Property Name="catID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="catDesc" Type="String" Nullable="false" />
+          <NavigationProperty Name="inventories" Relationship="PatientManagerModel.inventorycategory" FromRole="category" ToRole="inventory" />
+        </EntityType>
+        <EntityType Name="country">
+          <Key>
+            <PropertyRef Name="iso" />
+          </Key>
+          <Property Name="iso" Type="String" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" />
+          <Property Name="printable_name" Type="String" Nullable="false" />
+          <Property Name="iso3" Type="String" />
+          <Property Name="numcode" Type="Int16" />
+          <NavigationProperty Name="patients" Relationship="PatientManagerModel.patientcountry" FromRole="country" ToRole="patient" />
+        </EntityType>
+        <EntityType Name="doc_type">
+          <Key>
+            <PropertyRef Name="docTypeID" />
+          </Key>
+          <Property Name="docTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dtDec" Type="String" Nullable="false" />
+          <NavigationProperty Name="doctors" Relationship="PatientManagerModel.doctordoc_type" FromRole="doc_type" ToRole="doctor" />
+        </EntityType>
+        <EntityType Name="doctor">
+          <Key>
+            <PropertyRef Name="docID" />
+          </Key>
+          <Property Name="docID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="docFirstName" Type="String" Nullable="false" />
+          <Property Name="docLastName" Type="String" Nullable="true" />
+          <Property Name="docAddress" Type="String" />
+          <Property Name="docCity" Type="String" />
+          <Property Name="iso" Type="String" />
+          <Property Name="docPCode" Type="String" />
+          <Property Name="docOfficeNumber" Type="String" />
+          <Property Name="dovSecondaryNumber" Type="String" />
+          <Property Name="docMobileNumber" Type="String" />
+          <Property Name="docLicence" Type="String" />
+          <Property Name="docDateCreated" Type="DateTime" Nullable="false" />
+          <Property Name="docTypeID" Type="Int32" />
+          <Property Name="docActive" Type="Boolean" />
+          <NavigationProperty Name="patients" Relationship="PatientManagerModel.doctorpatient" FromRole="doctor" ToRole="patient" />
+          <NavigationProperty Name="appointments" Relationship="PatientManagerModel.doctorappointment" FromRole="doctor" ToRole="appointment" />
+          <NavigationProperty Name="doc_type" Relationship="PatientManagerModel.doctordoc_type" FromRole="doctor" ToRole="doc_type" />
+          <NavigationProperty Name="AccountingTotals" Relationship="PatientManagerModel.AccountingTotaldoctor" FromRole="doctor" ToRole="AccountingTotal" />
+          <Property Type="String" Name="docDefaultColour" />
+          <Property Type="Boolean" Name="docDefault" />
+          <NavigationProperty Name="invoices" Relationship="PatientManagerModel.invoicedoctor" FromRole="doctor" ToRole="invoice" />
+          <NavigationProperty Name="payments" Relationship="PatientManagerModel.paymentdoctor" FromRole="doctor" ToRole="payment" />
+          <NavigationProperty Name="PatientAccountHistoryViews" Relationship="PatientManagerModel.PatientAccountHistoryViewdoctor" FromRole="doctor" ToRole="PatientAccountHistoryView" />
+          <Property Type="String" Name="docLicence2" />
+        </EntityType>
+        <EntityType Name="inv_line">
+          <Key>
+            <PropertyRef Name="invID" />
+            <PropertyRef Name="itryID" />
+          </Key>
+          <Property Name="invID" Type="Int32" Nullable="false" />
+          <Property Name="itryID" Type="Int32" Nullable="false" />
+          <Property Name="itryQty" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="invoice" Relationship="PatientManagerModel.invoiceinv_line" FromRole="inv_line" ToRole="invoice" />
+          <NavigationProperty Name="inventory" Relationship="PatientManagerModel.inventoryinv_line" FromRole="inv_line" ToRole="inventory" />
+          <Property Type="Decimal" Name="linePrice" />
+        </EntityType>
+        <EntityType Name="inventory">
+          <Key>
+            <PropertyRef Name="itryID" />
+          </Key>
+          <Property Name="itryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="itryName" Type="String" Nullable="false" />
+          <Property Name="itryDesc" Type="String" />
+          <Property Name="itryCost" Type="Decimal" />
+          <Property Name="itryMarkup" Type="Int32" />
+          <Property Name="itrySellingPrive" Type="Decimal" />
+          <Property Name="itryActive" Type="Boolean" />
+          <Property Name="catID" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="inv_line" Relationship="PatientManagerModel.inventoryinv_line" FromRole="inventory" ToRole="inv_line" />
+          <Property Type="Int32" Name="itryStock" Nullable="false" />
+          <NavigationProperty Name="category" Relationship="PatientManagerModel.inventorycategory" FromRole="inventory" ToRole="category" />
+        </EntityType>
+        <EntityType Name="invoice">
+          <Key>
+            <PropertyRef Name="invID" />
+          </Key>
+          <Property Name="invID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="invDate" Type="DateTime" Nullable="false" />
+          <Property Name="patID" Type="Int32" Nullable="false" />
+          <Property Name="invStatus" Type="Int32" />
+          <NavigationProperty Name="inv_line" Relationship="PatientManagerModel.invoiceinv_line" FromRole="invoice" ToRole="inv_line" />
+          <NavigationProperty Name="patient" Relationship="PatientManagerModel.invoicepatient" FromRole="invoice" ToRole="patient" />
+          <Property Type="Boolean" Name="invCommitted" Nullable="false" />
+          <Property Type="Int32" Name="docID" Nullable="false" />
+          <NavigationProperty Name="doctor" Relationship="PatientManagerModel.invoicedoctor" FromRole="invoice" ToRole="doctor" />
+          <NavigationProperty Name="payments" Relationship="PatientManagerModel.paymentinvoice" FromRole="invoice" ToRole="payment" />
+        </EntityType>
+        <EntityType Name="loginuser">
+          <Key>
+            <PropertyRef Name="usrName" />
+          </Key>
+          <Property Name="usrName" Type="String" Nullable="false" />
+          <Property Name="usrPassword" Type="String" Nullable="false" />
+          <Property Name="usrDateCreated" Type="DateTime" Nullable="false" />
+          <Property Name="usrLastLogin" Type="DateTime" Nullable="false" />
+          <Property Name="usrActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="patient">
+          <Key>
+            <PropertyRef Name="patID" />
+          </Key>
+          <Property Name="patID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="patFirstName" Type="String" Nullable="false" />
+          <Property Name="patLastName" Type="String" Nullable="false" />
+          <Property Name="patDateCreate" Type="DateTime" Nullable="false" />
+          <Property Name="patSex" Type="Boolean" />
+          <Property Name="patOHIP" Type="String" />
+          <Property Name="patHealthCard" Type="String" />
+          <Property Name="patInsuranceNum" Type="String" />
+          <Property Name="patAddress" Type="String" />
+          <Property Name="patAddress2" Type="String" />
+          <Property Name="patPhoneNumber" Type="String" />
+          <Property Name="patMobileNumber" Type="String" />
+          <Property Name="patSecNumber" Type="String" />
+          <Property Name="patPCode" Type="String" />
+          <Property Name="patBirthday" Type="DateTime" />
+          <Property Name="patReferedBy" Type="String" />
+          <Property Name="patCity" Type="String" />
+          <Property Name="iso" Type="String" />
+          <Property Name="patProv" Type="String" />
+          <Property Name="patNotes" Type="String" />
+          <Property Name="docID" Type="Int32" Nullable="false" />
+          <Property Name="patActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="doctor" Relationship="PatientManagerModel.doctorpatient" FromRole="patient" ToRole="doctor" />
+          <NavigationProperty Name="country" Relationship="PatientManagerModel.patientcountry" FromRole="patient" ToRole="country" />
+          <NavigationProperty Name="appointments" Relationship="PatientManagerModel.patientappointment" FromRole="patient" ToRole="appointment" />
+          <NavigationProperty Name="invoices" Relationship="PatientManagerModel.invoicepatient" FromRole="patient" ToRole="invoice" />
+          <NavigationProperty Name="payments" Relationship="PatientManagerModel.paymentpatient" FromRole="patient" ToRole="payment" />
+          <Property Type="String" Name="patInsuranceProv" />
+          <Property Type="String" Name="patFlag" />
+          <NavigationProperty Name="PatientAccountHistoryViews" Relationship="PatientManagerModel.PatientAccountHistoryViewpatient" FromRole="patient" ToRole="PatientAccountHistoryView" />
+        </EntityType>
+        <EntityType Name="reminder">
+          <Key>
+            <PropertyRef Name="remID" />
+          </Key>
+          <Property Name="remID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="remDateCreated" Type="DateTime" Nullable="false" />
+          <Property Name="remTargetDate" Type="DateTime" Nullable="false" />
+          <Property Name="remNote" Type="String" />
+          <Property Name="remInterval" Type="Int32" />
+          <Property Name="remActive" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="usr_reminder">
+          <Key>
+            <PropertyRef Name="usrName" />
+            <PropertyRef Name="remID" />
+          </Key>
+          <Property Name="usrName" Type="String" Nullable="false" />
+          <Property Name="remID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="doctorpatient">
+          <End Type="PatientManagerModel.doctor" Role="doctor" Multiplicity="1" />
+          <End Type="PatientManagerModel.patient" Role="patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doctor">
+              <PropertyRef Name="docID" />
+            </Principal>
+            <Dependent Role="patient">
+              <PropertyRef Name="docID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="patientcountry">
+          <End Type="PatientManagerModel.patient" Role="patient" Multiplicity="*" />
+          <End Type="PatientManagerModel.country" Role="country" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="country">
+              <PropertyRef Name="iso" />
+            </Principal>
+            <Dependent Role="patient">
+              <PropertyRef Name="iso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="invoiceinv_line">
+          <End Type="PatientManagerModel.invoice" Role="invoice" Multiplicity="1" />
+          <End Type="PatientManagerModel.inv_line" Role="inv_line" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="invoice">
+              <PropertyRef Name="invID" />
+            </Principal>
+            <Dependent Role="inv_line">
+              <PropertyRef Name="invID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="inventoryinv_line">
+          <End Type="PatientManagerModel.inventory" Role="inventory" Multiplicity="1" />
+          <End Type="PatientManagerModel.inv_line" Role="inv_line" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="inventory">
+              <PropertyRef Name="itryID" />
+            </Principal>
+            <Dependent Role="inv_line">
+              <PropertyRef Name="itryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="patientappointment">
+          <End Type="PatientManagerModel.patient" Role="patient" Multiplicity="0..1" />
+          <End Type="PatientManagerModel.appointment" Role="appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="patID" />
+            </Principal>
+            <Dependent Role="appointment">
+              <PropertyRef Name="patID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="doctorappointment">
+          <End Type="PatientManagerModel.doctor" Role="doctor" Multiplicity="0..1" />
+          <End Type="PatientManagerModel.appointment" Role="appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doctor">
+              <PropertyRef Name="docID" />
+            </Principal>
+            <Dependent Role="appointment">
+              <PropertyRef Name="docID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="doctordoc_type">
+          <End Type="PatientManagerModel.doctor" Role="doctor" Multiplicity="*" />
+          <End Type="PatientManagerModel.doc_type" Role="doc_type" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="doc_type">
+              <PropertyRef Name="docTypeID" />
+            </Principal>
+            <Dependent Role="doctor">
+              <PropertyRef Name="docTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="invoicepatient">
+          <End Type="PatientManagerModel.invoice" Role="invoice" Multiplicity="*" />
+          <End Type="PatientManagerModel.patient" Role="patient" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="patID" />
+            </Principal>
+            <Dependent Role="invoice">
+              <PropertyRef Name="patID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="inventorycategory">
+          <End Type="PatientManagerModel.inventory" Role="inventory" Multiplicity="*" />
+          <End Type="PatientManagerModel.category" Role="category" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="category">
+              <PropertyRef Name="catID" />
+            </Principal>
+            <Dependent Role="inventory">
+              <PropertyRef Name="catID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="payment_type">
+          <Key>
+            <PropertyRef Name="ptID" />
+          </Key>
+          <Property Type="Int32" Name="ptID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ptName" />
+          <NavigationProperty Name="payment" Relationship="PatientManagerModel.payment_typepayment" FromRole="payment_type" ToRole="payment" />
+        </EntityType>
+        <EntityType Name="payment">
+          <Key>
+            <PropertyRef Name="payID" />
+          </Key>
+          <Property Name="payID" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="payAmount" Nullable="false" Type="Decimal" />
+          <Property Name="payDate" Nullable="false" Type="DateTime" />
+          <Property Name="ptID" Nullable="false" Type="Int32" />
+          <Property Name="patID" Nullable="false" Type="Int32" />
+          <Property Name="payVoid" Type="Boolean" />
+          <NavigationProperty Name="patient" Relationship="PatientManagerModel.paymentpatient" FromRole="payment" ToRole="patient" />
+          <NavigationProperty Name="payment_type" Relationship="PatientManagerModel.payment_typepayment" FromRole="payment" ToRole="payment_type" />
+          <Property Name="docID" Nullable="false" Type="Int32" />
+          <NavigationProperty Name="doctor" Relationship="PatientManagerModel.paymentdoctor" FromRole="payment" ToRole="doctor" />
+          <Property Name="invID" Nullable="true" Type="Int32" />
+          <NavigationProperty Name="invoice" Relationship="PatientManagerModel.paymentinvoice" FromRole="payment" ToRole="invoice" />
+        </EntityType>
+        <Association Name="paymentpatient">
+          <End Type="PatientManagerModel.payment" Multiplicity="*" Role="payment" />
+          <End Type="PatientManagerModel.patient" Multiplicity="1" Role="patient" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="patID" />
+            </Principal>
+            <Dependent Role="payment">
+              <PropertyRef Name="patID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="payment_typepayment">
+          <End Type="PatientManagerModel.payment_type" Multiplicity="1" Role="payment_type" />
+          <End Type="PatientManagerModel.payment" Multiplicity="*" Role="payment" />
+          <ReferentialConstraint>
+            <Principal Role="payment_type">
+              <PropertyRef Name="ptID" />
+            </Principal>
+            <Dependent Role="payment">
+              <PropertyRef Name="ptID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AccountingTotal">
+          <Key>
+            <PropertyRef Name="TYPE" />
+          </Key>
+          <Property Type="DateTime" Name="date" />
+          <Property Type="Decimal" Name="total" />
+          <Property Type="Int32" Name="docID" Nullable="false" />
+          <Property Type="String" Name="TYPE" Nullable="false" />
+          <NavigationProperty Name="doctor" Relationship="PatientManagerModel.AccountingTotaldoctor" FromRole="AccountingTotal" ToRole="doctor" />
+        </EntityType>
+        <Association Name="AccountingTotaldoctor">
+          <End Type="PatientManagerModel.AccountingTotal" Role="AccountingTotal" Multiplicity="*" />
+          <End Type="PatientManagerModel.doctor" Role="doctor" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="doctor">
+              <PropertyRef Name="docID" />
+            </Principal>
+            <Dependent Role="AccountingTotal">
+              <PropertyRef Name="docID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="invoicedoctor">
+          <End Type="PatientManagerModel.invoice" Role="invoice" Multiplicity="*" />
+          <End Type="PatientManagerModel.doctor" Role="doctor" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="doctor">
+              <PropertyRef Name="docID" />
+            </Principal>
+            <Dependent Role="invoice">
+              <PropertyRef Name="docID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="paymentdoctor">
+          <End Type="PatientManagerModel.payment" Multiplicity="*" Role="payment" />
+          <End Type="PatientManagerModel.doctor" Multiplicity="1" Role="doctor" />
+          <ReferentialConstraint>
+            <Principal Role="doctor">
+              <PropertyRef Name="docID" />
+            </Principal>
+            <Dependent Role="payment">
+              <PropertyRef Name="docID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PatientAccountHistoryView">
+          <Key>
+            <PropertyRef Name="Type" />
+            <PropertyRef Name="docID" />
+          </Key>
+          <Property Type="DateTime" Name="Date" />
+          <Property Type="Int32" Name="patID" Nullable="false" />
+          <Property Type="String" Name="Type" Nullable="false" />
+          <Property Type="String" Name="Description" />
+          <Property Type="Int32" Name="itryQty" />
+          <Property Type="Decimal" Name="Amount" />
+          <NavigationProperty Name="patient" Relationship="PatientManagerModel.PatientAccountHistoryViewpatient" FromRole="PatientAccountHistoryView" ToRole="patient" />
+          <Property Type="Int32" Name="docID" Nullable="false" />
+          <NavigationProperty Name="doctor" Relationship="PatientManagerModel.PatientAccountHistoryViewdoctor" FromRole="PatientAccountHistoryView" ToRole="doctor" />
+        </EntityType>
+        <Association Name="PatientAccountHistoryViewpatient">
+          <End Type="PatientManagerModel.PatientAccountHistoryView" Role="PatientAccountHistoryView" Multiplicity="*" />
+          <End Type="PatientManagerModel.patient" Role="patient" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="patID" />
+            </Principal>
+            <Dependent Role="PatientAccountHistoryView">
+              <PropertyRef Name="patID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="paymentinvoice">
+          <End Type="PatientManagerModel.payment" Role="payment" Multiplicity="*" />
+          <End Type="PatientManagerModel.invoice" Role="invoice" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="invoice">
+              <PropertyRef Name="invID" />
+            </Principal>
+            <Dependent Role="payment">
+              <PropertyRef Name="invID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientAccountHistoryViewdoctor">
+          <End Type="PatientManagerModel.PatientAccountHistoryView" Role="PatientAccountHistoryView" Multiplicity="*" />
+          <End Type="PatientManagerModel.doctor" Role="doctor" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="doctor">
+              <PropertyRef Name="docID" />
+            </Principal>
+            <Dependent Role="PatientAccountHistoryView">
+              <PropertyRef Name="docID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PatientManagerModelStoreContainer" CdmEntityContainer="PatientManagerEntities">
+          <EntitySetMapping Name="appointments"><EntityTypeMapping TypeName="PatientManagerModel.appointment"><MappingFragment StoreEntitySet="appointment">
+            <ScalarProperty Name="itryID" ColumnName="itryID" />
+                <ScalarProperty Name="usrName" ColumnName="usrName" />
+                <ScalarProperty Name="appColour" ColumnName="appColour" />
+                <ScalarProperty Name="appDuration" ColumnName="appDuration" />
+                <ScalarProperty Name="appID" ColumnName="appID" />
+            <ScalarProperty Name="appDate" ColumnName="appDate" />
+            <ScalarProperty Name="appNote" ColumnName="appNote" />
+            <ScalarProperty Name="patID" ColumnName="patID" />
+            <ScalarProperty Name="docID" ColumnName="docID" />
+            <ScalarProperty Name="appDateCreate" ColumnName="appDateCreate" />
+            <ScalarProperty Name="appStatusID" ColumnName="appStatusID" />
+            <ScalarProperty Name="appAutoRenew" ColumnName="appAutoRenew" />
+            <ScalarProperty Name="appRenewIntervalID" ColumnName="appRenewIntervalID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="categories"><EntityTypeMapping TypeName="PatientManagerModel.category"><MappingFragment StoreEntitySet="category">
+            <ScalarProperty Name="catID" ColumnName="catID" />
+            <ScalarProperty Name="catDesc" ColumnName="catDesc" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="countries"><EntityTypeMapping TypeName="PatientManagerModel.country"><MappingFragment StoreEntitySet="country">
+            <ScalarProperty Name="iso" ColumnName="iso" />
+            <ScalarProperty Name="name" ColumnName="name" />
+            <ScalarProperty Name="printable_name" ColumnName="printable_name" />
+            <ScalarProperty Name="iso3" ColumnName="iso3" />
+            <ScalarProperty Name="numcode" ColumnName="numcode" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="doc_type"><EntityTypeMapping TypeName="PatientManagerModel.doc_type"><MappingFragment StoreEntitySet="doc_type">
+            <ScalarProperty Name="docTypeID" ColumnName="docTypeID" />
+            <ScalarProperty Name="dtDec" ColumnName="dtDec" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="doctors"><EntityTypeMapping TypeName="PatientManagerModel.doctor"><MappingFragment StoreEntitySet="doctor">
+                <ScalarProperty Name="docLicence2" ColumnName="docLicence2" />
+                <ScalarProperty Name="docDefault" ColumnName="docDefault" />
+                <ScalarProperty Name="docDefaultColour" ColumnName="docDefaultColour" />
+                <ScalarProperty Name="dovSecondaryNumber" ColumnName="dovSecondaryNumber" />
+                <ScalarProperty Name="docID" ColumnName="docID" />
+            <ScalarProperty Name="docFirstName" ColumnName="docFirstName" />
+            <ScalarProperty Name="docLastName" ColumnName="docLastName" />
+            <ScalarProperty Name="docAddress" ColumnName="docAddress" />
+            <ScalarProperty Name="docCity" ColumnName="docCity" />
+            <ScalarProperty Name="iso" ColumnName="iso" />
+            <ScalarProperty Name="docPCode" ColumnName="docPCode" />
+            <ScalarProperty Name="docOfficeNumber" ColumnName="docOfficeNumber" />
+            <ScalarProperty Name="docMobileNumber" ColumnName="docMobileNumber" />
+            <ScalarProperty Name="docLicence" ColumnName="docLicence" />
+            <ScalarProperty Name="docDateCreated" ColumnName="docDateCreated" />
+            <ScalarProperty Name="docTypeID" ColumnName="docTypeID" />
+            <ScalarProperty Name="docActive" ColumnName="docActive" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="inv_line"><EntityTypeMapping TypeName="PatientManagerModel.inv_line"><MappingFragment StoreEntitySet="inv_line">
+            <ScalarProperty Name="linePrice" ColumnName="linePrice" />
+                <ScalarProperty Name="invID" ColumnName="invID" />
+            <ScalarProperty Name="itryID" ColumnName="itryID" />
+            <ScalarProperty Name="itryQty" ColumnName="itryQty" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="inventories"><EntityTypeMapping TypeName="PatientManagerModel.inventory"><MappingFragment StoreEntitySet="inventory">
+            <ScalarProperty Name="itryStock" ColumnName="itryStock" />
+                <ScalarProperty Name="itryID" ColumnName="itryID" />
+            <ScalarProperty Name="itryName" ColumnName="itryName" />
+            <ScalarProperty Name="itryDesc" ColumnName="itryDesc" />
+            <ScalarProperty Name="itryCost" ColumnName="itryCost" />
+            <ScalarProperty Name="itryMarkup" ColumnName="itryMarkup" />
+            <ScalarProperty Name="itrySellingPrive" ColumnName="itrySellingPrive" />
+            <ScalarProperty Name="itryActive" ColumnName="itryActive" />
+            <ScalarProperty Name="catID" ColumnName="catID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="invoices"><EntityTypeMapping TypeName="PatientManagerModel.invoice"><MappingFragment StoreEntitySet="invoice">
+            <ScalarProperty Name="docID" ColumnName="docID" />
+                <ScalarProperty Name="invCommitted" ColumnName="invCommitted" />
+                <ScalarProperty Name="invID" ColumnName="invID" />
+            <ScalarProperty Name="invDate" ColumnName="invDate" />
+            <ScalarProperty Name="patID" ColumnName="patID" />
+            <ScalarProperty Name="invStatus" ColumnName="invStatus" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="loginusers"><EntityTypeMapping TypeName="PatientManagerModel.loginuser"><MappingFragment StoreEntitySet="loginuser">
+            <ScalarProperty Name="usrName" ColumnName="usrName" />
+            <ScalarProperty Name="usrPassword" ColumnName="usrPassword" />
+            <ScalarProperty Name="usrDateCreated" ColumnName="usrDateCreated" />
+            <ScalarProperty Name="usrLastLogin" ColumnName="usrLastLogin" />
+            <ScalarProperty Name="usrActive" ColumnName="usrActive" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="patients"><EntityTypeMapping TypeName="PatientManagerModel.patient"><MappingFragment StoreEntitySet="patient">
+            <ScalarProperty Name="patFlag" ColumnName="patFlag" />
+                <ScalarProperty Name="patInsuranceProv" ColumnName="patInsuranceProv" />
+                <ScalarProperty Name="patID" ColumnName="patID" />
+            <ScalarProperty Name="patFirstName" ColumnName="patFirstName" />
+            <ScalarProperty Name="patLastName" ColumnName="patLastName" />
+            <ScalarProperty Name="patDateCreate" ColumnName="patDateCreate" />
+            <ScalarProperty Name="patSex" ColumnName="patSex" />
+            <ScalarProperty Name="patOHIP" ColumnName="patOHIP" />
+            <ScalarProperty Name="patHealthCard" ColumnName="patHealthCard" />
+            <ScalarProperty Name="patInsuranceNum" ColumnName="patInsuranceNum" />
+            <ScalarProperty Name="patAddress" ColumnName="patAddress" />
+            <ScalarProperty Name="patAddress2" ColumnName="patAddress2" />
+            <ScalarProperty Name="patPhoneNumber" ColumnName="patPhoneNumber" />
+            <ScalarProperty Name="patMobileNumber" ColumnName="patMobileNumber" />
+            <ScalarProperty Name="patSecNumber" ColumnName="patSecNumber" />
+            <ScalarProperty Name="patPCode" ColumnName="patPCode" />
+            <ScalarProperty Name="patBirthday" ColumnName="patBirthday" />
+            <ScalarProperty Name="patReferedBy" ColumnName="patReferedBy" />
+            <ScalarProperty Name="patCity" ColumnName="patCity" />
+            <ScalarProperty Name="iso" ColumnName="iso" />
+            <ScalarProperty Name="patProv" ColumnName="patProv" />
+            <ScalarProperty Name="patNotes" ColumnName="patNotes" />
+            <ScalarProperty Name="docID" ColumnName="docID" />
+            <ScalarProperty Name="patActive" ColumnName="patActive" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="reminders"><EntityTypeMapping TypeName="PatientManagerModel.reminder"><MappingFragment StoreEntitySet="reminder">
+            <ScalarProperty Name="remID" ColumnName="remID" />
+            <ScalarProperty Name="remDateCreated" ColumnName="remDateCreated" />
+            <ScalarProperty Name="remTargetDate" ColumnName="remTargetDate" />
+            <ScalarProperty Name="remNote" ColumnName="remNote" />
+            <ScalarProperty Name="remInterval" ColumnName="remInterval" />
+            <ScalarProperty Name="remActive" ColumnName="remActive" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="usr_reminder"><EntityTypeMapping TypeName="PatientManagerModel.usr_reminder"><MappingFragment StoreEntitySet="usr_reminder">
+            <ScalarProperty Name="usrName" ColumnName="usrName" />
+            <ScalarProperty Name="remID" ColumnName="remID" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="payment_type">
+            <EntityTypeMapping TypeName="PatientManagerModel.payment_type">
+              <MappingFragment StoreEntitySet="payment_type">
+                <ScalarProperty Name="ptName" ColumnName="ptName" />
+                <ScalarProperty Name="ptID" ColumnName="ptID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="payments">
+            <EntityTypeMapping TypeName="PatientManagerModel.payment">
+              <MappingFragment StoreEntitySet="payment">
+                <ScalarProperty Name="invID" ColumnName="invID" />
+                <ScalarProperty Name="docID" ColumnName="docID" />
+                <ScalarProperty Name="payVoid" ColumnName="payVoid" />
+                <ScalarProperty Name="patID" ColumnName="patID" />
+                <ScalarProperty Name="ptID" ColumnName="ptID" />
+                <ScalarProperty Name="payDate" ColumnName="payDate" />
+                <ScalarProperty Name="payAmount" ColumnName="payAmount" />
+                <ScalarProperty Name="payID" ColumnName="payID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccountingTotals">
+            <EntityTypeMapping TypeName="PatientManagerModel.AccountingTotal">
+              <MappingFragment StoreEntitySet="AccountingTotal">
+                <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+                <ScalarProperty Name="docID" ColumnName="docID" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PatientAccountHistoryViews">
+            <EntityTypeMapping TypeName="PatientManagerModel.PatientAccountHistoryView">
+              <MappingFragment StoreEntitySet="PatientAccountHistoryView">
+                <ScalarProperty Name="docID" ColumnName="docID" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="itryQty" ColumnName="itryQty" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="patID" ColumnName="patID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Model1" ZoomLevel="73">
+        <EntityTypeShape EntityType="PatientManagerModel.appointment" Width="1.5" PointX="5.25" PointY="5.5" Height="3.1340950520833317" IsExpanded="true" />
+        <EntityTypeShape EntityType="PatientManagerModel.category" Width="1.5" PointX="7.5" PointY="5" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="PatientManagerModel.country" Width="1.5" PointX="5.25" PointY="9.625" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="PatientManagerModel.doc_type" Width="1.5" PointX="3" PointY="2.75" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="PatientManagerModel.doctor" Width="1.5" PointX="0.75" PointY="4.875" Height="4.4802050781250014" IsExpanded="true" />
+        <EntityTypeShape EntityType="PatientManagerModel.inv_line" Width="1.5" PointX="7.5" PointY="0.75" Height="2.172587890625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PatientManagerModel.inventory" Width="1.5" PointX="5" PointY="0.625" Height="3.1340950520833326" IsExpanded="true" />
+        <EntityTypeShape EntityType="PatientManagerModel.invoice" Width="1.5" PointX="10.125" PointY="1.25" Height="2.172587890625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PatientManagerModel.loginuser" Width="1.5" PointX="7.75" PointY="7.75" Height="1.9802864583333317" IsExpanded="true" />
+        <EntityTypeShape EntityType="PatientManagerModel.patient" Width="1.5" PointX="3" PointY="5.125" Height="6.4032194010416656" IsExpanded="true" />
+        <EntityTypeShape EntityType="PatientManagerModel.reminder" Width="1.5" PointX="9.75" PointY="4.75" Height="2.1725878906250031" IsExpanded="true" />
+        <EntityTypeShape EntityType="PatientManagerModel.usr_reminder" Width="1.5" PointX="9.75" PointY="7.75" Height="1.4033821614583388" IsExpanded="true" />
+        <AssociationConnector Association="PatientManagerModel.doctorpatient">
+          <ConnectorPoint PointX="2.25" PointY="7.2401025390625007" />
+          <ConnectorPoint PointX="3" PointY="7.2401025390625007" />
+        </AssociationConnector>
+        <AssociationConnector Association="PatientManagerModel.patientcountry">
+          <ConnectorPoint PointX="4.5" PointY="10.576609700520834" />
+          <ConnectorPoint PointX="5.25" PointY="10.576609700520834" />
+        </AssociationConnector>
+        <AssociationConnector Association="PatientManagerModel.invoiceinv_line">
+          <ConnectorPoint PointX="10.125" PointY="2.0862939453125" />
+          <ConnectorPoint PointX="9" PointY="2.0862939453125" />
+        </AssociationConnector>
+        <AssociationConnector Association="PatientManagerModel.inventoryinv_line">
+          <ConnectorPoint PointX="6.5" PointY="1.8362939453124998" />
+          <ConnectorPoint PointX="7.5" PointY="1.8362939453124998" />
+        </AssociationConnector>
+        <AssociationConnector Association="PatientManagerModel.patientappointment">
+          <ConnectorPoint PointX="4.5" PointY="7.1631982421875" />
+          <ConnectorPoint PointX="5.25" PointY="7.1631982421875" />
+        </AssociationConnector>
+        <AssociationConnector Association="PatientManagerModel.doctorappointment">
+          <ConnectorPoint PointX="2.25" PointY="4.93510178385416" />
+          <ConnectorPoint PointX="3.6666666666666665" PointY="4.9351017838541589" />
+          <ConnectorPoint PointX="3.8333333333333335" PointY="4.93510178385416" />
+          <ConnectorPoint PointX="5.010416666666667" PointY="4.9351017838541589" />
+          <ConnectorPoint PointX="5.177083333333333" PointY="4.93510178385416" />
+          <ConnectorPoint PointX="6" PointY="4.93510178385416" />
+          <ConnectorPoint PointX="6" PointY="5.5" />
+        </AssociationConnector>
+        <AssociationConnector Association="PatientManagerModel.doctordoc_type">
+          <ConnectorPoint PointX="1.9471456132812501" PointY="4.875" />
+          <ConnectorPoint PointX="1.9471456132812501" PointY="3.547841796875" />
+          <ConnectorPoint PointX="3" PointY="3.547841796875" />
+        </AssociationConnector>
+        <AssociationConnector Association="PatientManagerModel.invoicepatient">
+          <ConnectorPoint PointX="10.125" PointY="3.0264147123196929" />
+          <ConnectorPoint PointX="9.25" PointY="3.0264147123196929" />
+          <ConnectorPoint PointX="9.25" PointY="4.59568359375" />
+          <ConnectorPoint PointX="5.177083333333333" PointY="4.5956835937499987" />
+          <ConnectorPoint PointX="5.010416666666667" PointY="4.59568359375" />
+          <ConnectorPoint PointX="3.75" PointY="4.59568359375" />
+          <ConnectorPoint PointX="3.75" PointY="5.125" />
+        </AssociationConnector>
+        <AssociationConnector Association="PatientManagerModel.inventorycategory">
+          <ConnectorPoint PointX="5.09375" PointY="3.7590950520833326" />
+          <ConnectorPoint PointX="5.09375" PointY="5.21875" />
+          <ConnectorPoint PointX="5.916666666666667" PointY="5.2187499999999991" />
+          <ConnectorPoint PointX="6.083333333333333" PointY="5.21875" />
+          <ConnectorPoint PointX="7.5" PointY="5.21875" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="PatientManagerModel.payment_type" Width="1.5" PointX="10.625" PointY="10.5" Height="1.4033821614583335" />
+        <EntityTypeShape EntityType="PatientManagerModel.payment" PointX="8.5" PointY="10.875" Width="1.5" Height="3.3263964843749996" IsExpanded="true" />
+        <AssociationConnector Association="PatientManagerModel.paymentpatient">
+          <ConnectorPoint PointX="8.5" PointY="11.886455078125" />
+          <ConnectorPoint PointX="4.5" PointY="11.886455078125" />
+        </AssociationConnector>
+        <AssociationConnector Association="PatientManagerModel.payment_typepayment">
+          <ConnectorPoint PointX="10.625" PointY="11.485341796875" />
+          <ConnectorPoint PointX="10" PointY="11.485341796875" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="PatientManagerModel.AccountingTotal" Width="1.5" PointX="12.875" PointY="1.5" Height="1.7879850260416674" />
+        <AssociationConnector Association="PatientManagerModel.AccountingTotaldoctor">
+          <ConnectorPoint PointX="12.875" PointY="2.4901432291666667" />
+          <ConnectorPoint PointX="11.875" PointY="2.4901432291666667" />
+          <ConnectorPoint PointX="11.875" PointY="4.56443359375" />
+          <ConnectorPoint PointX="9.6770833333333339" PointY="4.5644335937499987" />
+          <ConnectorPoint PointX="9.5104166666666661" PointY="4.56443359375" />
+          <ConnectorPoint PointX="5.177083333333333" PointY="4.5644335937499987" />
+          <ConnectorPoint PointX="5.010416666666667" PointY="4.56443359375" />
+          <ConnectorPoint PointX="2.0304789466145836" PointY="4.5644335937499987" />
+          <ConnectorPoint PointX="1.8638122799479169" PointY="4.56443359375" />
+          <ConnectorPoint PointX="1.317320806640625" PointY="4.56443359375" />
+          <ConnectorPoint PointX="1.317320806640625" PointY="4.875" />
+        </AssociationConnector>
+        <AssociationConnector Association="PatientManagerModel.invoicedoctor">
+          <ConnectorPoint PointX="10.125" PointY="3.6403561660556805" />
+          <ConnectorPoint PointX="9.5" PointY="3.6403561660556805" />
+          <ConnectorPoint PointX="9.5" PointY="4.53318359375" />
+          <ConnectorPoint PointX="5.177083333333333" PointY="4.5331835937499987" />
+          <ConnectorPoint PointX="5.010416666666667" PointY="4.53318359375" />
+          <ConnectorPoint PointX="2.0304789466145836" PointY="4.5331835937499987" />
+          <ConnectorPoint PointX="1.8638122799479169" PointY="4.53318359375" />
+          <ConnectorPoint PointX="1.6322332099609376" PointY="4.53318359375" />
+          <ConnectorPoint PointX="1.6322332099609376" PointY="4.875" />
+        </AssociationConnector>
+        <AssociationConnector Association="PatientManagerModel.paymentdoctor">
+          <ConnectorPoint PointX="8.5" PointY="12.283333274739583" />
+          <ConnectorPoint PointX="3.8333333333333335" PointY="12.283333274739583" />
+          <ConnectorPoint PointX="3.6666666666666665" PointY="12.283333274739583" />
+          <ConnectorPoint PointX="1.9427085833333333" PointY="12.283333274739583" />
+          <ConnectorPoint PointX="1.7760419166666668" PointY="12.283333274739583" />
+          <ConnectorPoint PointX="1.3437505" PointY="12.283333274739583" />
+          <ConnectorPoint PointX="1.3437505" PointY="10.316712239583332" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="PatientManagerModel.PatientAccountHistoryView" Width="1.5" PointX="0.75" PointY="12.75" Height="2.1725878906250031" />
+        <AssociationConnector Association="PatientManagerModel.PatientAccountHistoryViewpatient">
+          <ConnectorPoint PointX="2.25" PointY="13.932444661458334" />
+          <ConnectorPoint PointX="3.75" PointY="13.932444661458334" />
+          <ConnectorPoint PointX="3.75" PointY="11.912822265625" />
+        </AssociationConnector>
+        <AssociationConnector Association="PatientManagerModel.paymentinvoice">
+          <ConnectorPoint PointX="9.59375" PointY="10.875" />
+          <ConnectorPoint PointX="9.59375" PointY="3.9473273929236745" />
+          <ConnectorPoint PointX="10.125" PointY="3.9473273929236745" />
+        </AssociationConnector>
+        <AssociationConnector Association="PatientManagerModel.PatientAccountHistoryViewdoctor">
+          <ConnectorPoint PointX="1.85937525" PointY="12.75" />
+          <ConnectorPoint PointX="1.85937525" PointY="10.316712239583332" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
