@@ -16,7 +16,7 @@ namespace PatientManager.Forms.Reporting
             InitializeComponent();
 
             report = new InvoiceReport();
-            InvoiceViewModelBindingSource.DataSource = Database.InvoiceRepository.GetInvoices(invID);
+            InvoiceViewModelBindingSource.DataSource = Database.InvoiceViewModel.GetInvoices(invID);
             report.SetDataSource(InvoiceViewModelBindingSource);
 
             crystalReportViewer1.ReportSource = report;

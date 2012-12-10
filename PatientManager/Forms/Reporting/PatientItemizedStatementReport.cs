@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace PatientManager.Forms.Reporting
 {
-    public partial class PatientAccountHistoryReport : Form
+    public partial class PatientItemizedStatementReport : Form
     {
-        public PatientAccountHistoryReport(int patID, DateTime startDate, DateTime endDate)
+        public PatientItemizedStatementReport(int patID, DateTime startDate, DateTime endDate)
         {
             InitializeComponent();
             decimal prevBalance = Database.Reporting.PatientAccountHistoryModel.getPatientPrevBalance(patID, startDate);

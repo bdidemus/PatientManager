@@ -1,7 +1,7 @@
 -- Dec 27 2011
 -- Brett Didemus
 -- Patient Manager DDL Script
--- v7
+-- v8
 
 CREATE TABLE IF NOT EXISTS loginuser (
 	usrName varchar(20),
@@ -446,13 +446,13 @@ ALTER TABLE invoice ADD CONSTRAINT fk_invoice_docid FOREIGN KEY(docID) REFERENCE
 
 ALTER TABLE patient MODIFY docID integer NOT NULL DEFAULT 1;
 	
--- Modified v7
+-- Modified v8 -- added line_discount
 CREATE VIEW PatientAccountHistoryView AS
-SELECT DATE(invDate) as 'Date', patID, itryName AS 'Type', itryDesc AS 'Description', itryQty, linePrice AS 'Amount', docID FROM inv_line
+SELECT DATE(invDate) as 'Date', patID, itryName AS 'Type', itryDesc AS 'Description', itryQty, linePrice AS 'Amount', line_discount, docID FROM inv_line
 INNER JOIN invoice ON (invoice.invID = inv_line.invID)
 INNER JOIN inventory ON (inventory.itryID = inv_line.itryID)
 UNION ALL
-SELECT DATE(payDate), patID, 'Payment', ptName, null, payAmount, docID  FROM payment
+SELECT DATE(payDate), patID, 'Payment', ptName, null, payAmount, 0, docID  FROM payment
 INNER JOIN payment_type ON (payment.ptID = payment_type.ptID)
 
 -- Added version 6
@@ -461,3 +461,6 @@ ALTER TABLE payment ADD CONSTRAINT FOREIGN KEY(invID) REFERENCES invoice(invID);
 
 -- Added version 7
 ALTER TABLE doctor ADD docLicence2 varchar(20) DEFAULT NULL AFTER docLicence;
+
+-- Added version 8 to allow discounts on bills
+ALTER TABLE inv_line ADD line_discount decimal(5, 2) DEFAULT 0 NOT NULL AFTER linePrice; 

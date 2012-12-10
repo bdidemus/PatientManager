@@ -17,7 +17,7 @@ namespace PatientManager.Forms.Reporting
         {
             if (dtStart.Value < dtEnd.Value)
             {
-                PatientAccountHistoryReport reprt = new PatientAccountHistoryReport(m_nPatID, dtStart.Value, dtEnd.Value);
+                PatientItemizedStatementReport reprt = new PatientItemizedStatementReport(m_nPatID, dtStart.Value, dtEnd.Value);
                 if(m_asDialog)
                 {
                     reprt.ShowDialog();

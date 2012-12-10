@@ -74,7 +74,7 @@ namespace PatientManager.Database.Reporting
 
             // Get all the invoices for the day
             var query = from item in context.invoices
-                        where item.invDate >= date && item.invDate < nextDay
+                        where item.invDate >= date && item.invDate < nextDay && item.invStatus != 1
                         select new
                         {
                             Patient = item.patient,

@@ -77,7 +77,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Calendar.DayView">
-      <HintPath>..\..\..\lib\Calendar\DayView\bin\Debug\Calendar.DayView.dll</HintPath>
+      <HintPath>lib\Calendar\Calendar\bin\Release\Calendar.DayView.dll</HintPath>
     </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
@@ -116,7 +116,6 @@
     <Compile Include="Database\Reporting\AccountsReceivableModel.cs" />
     <Compile Include="Database\Reporting\DailyBillingsViewModel.cs" />
     <Compile Include="Database\Reporting\InvoiceViewModel.cs" />
-    <Compile Include="Database\Reporting\InvoiceRepository.cs" />
     <Compile Include="Database\doctor.cs" />
     <Compile Include="Database\DoctorMgr.cs" />
     <Compile Include="Database\InventoryMgr.cs" />
@@ -167,12 +166,6 @@
     </Compile>
     <Compile Include="Forms\Reporting\Dialogs\AccountsRecivableReportDialog.Designer.cs">
       <DependentUpon>AccountsRecivableReportDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Reporting\Dialogs\ProgressDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Reporting\Dialogs\ProgressDialog.Designer.cs">
-      <DependentUpon>ProgressDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Reporting\PatientActivityReportForm.cs">
       <SubType>Form</SubType>
@@ -319,11 +312,11 @@
     <Compile Include="Forms\PaymentForm.Designer.cs">
       <DependentUpon>PaymentForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Reporting\PatientAccountHistoryReport.cs">
+    <Compile Include="Forms\Reporting\PatientItemizedStatementReport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Reporting\PatientAccountHistoryReport.Designer.cs">
-      <DependentUpon>PatientAccountHistoryReport.cs</DependentUpon>
+    <Compile Include="Forms\Reporting\PatientItemizedStatementReport.Designer.cs">
+      <DependentUpon>PatientItemizedStatementReport.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Reporting\Dialogs\PatientAccountSummaryDialog.cs">
       <SubType>Form</SubType>
@@ -394,9 +387,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Reporting\Dialogs\AccountsRecivableReportDialog.resx">
       <DependentUpon>AccountsRecivableReportDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Reporting\Dialogs\ProgressDialog.resx">
-      <DependentUpon>ProgressDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Reporting\PatientActivityReportForm.resx">
       <DependentUpon>PatientActivityReportForm.cs</DependentUpon>
@@ -476,8 +466,8 @@
     <EmbeddedResource Include="Forms\PaymentForm.resx">
       <DependentUpon>PaymentForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Reporting\PatientAccountHistoryReport.resx">
-      <DependentUpon>PatientAccountHistoryReport.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Reporting\PatientItemizedStatementReport.resx">
+      <DependentUpon>PatientItemizedStatementReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Reporting\PatientActivity.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

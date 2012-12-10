@@ -87,8 +87,11 @@ namespace PatientManager.Forms
                 dgr.Cells[1].Value = line.inventory.itryName;
                 dgr.Cells[2].Value = line.inventory.itryDesc;
                 dgr.Cells[3].Value = line.linePrice;
-                dgr.Cells[4].Value = line.itryQty;
+                dgr.Cells[4].Value = line.line_discount;
+                dgr.Cells[5].Value = line.itryQty;
             }
+
+            lblTotal.Text = "$" + Convert.ToSingle(Database.InvoiceMgr.Instance.getInvoiceTotal(m_currentInvoice));
         }
 
         ///// <summary>
@@ -179,7 +182,7 @@ namespace PatientManager.Forms
                     dgvInvoice.Rows[rowid].Cells[1].Value = newItem.itryName;
                     dgvInvoice.Rows[rowid].Cells[2].Value = newItem.itryDesc;
                     dgvInvoice.Rows[rowid].Cells[3].Value = newItem.itrySellingPrive;
-                    dgvInvoice.Rows[rowid].Cells[4].Value = 1;
+                    dgvInvoice.Rows[rowid].Cells[5].Value = 1;
                 }
             }
         }
@@ -196,7 +199,7 @@ namespace PatientManager.Forms
                 dgvInvoice.Rows[rowid].Cells[1].Value = newItem.itryName;
                 dgvInvoice.Rows[rowid].Cells[2].Value = newItem.itryDesc;
                 dgvInvoice.Rows[rowid].Cells[3].Value = newItem.itrySellingPrive;
-                dgvInvoice.Rows[rowid].Cells[4].Value = 1;
+                dgvInvoice.Rows[rowid].Cells[5].Value = 1;
             }
         }
 
@@ -234,8 +237,6 @@ namespace PatientManager.Forms
 
         private void tsbSave_Click(object sender, EventArgs e)
         {
-            //if (!m_bIsUpdate)
-            //{
             if (!ValidateChildren())
             {
                 return;
@@ -254,11 +255,12 @@ namespace PatientManager.Forms
                     try
                     {
                         m_invBuilder.modifyItemPrice(row.Index, Convert.ToDecimal(dgvInvoice.Rows[row.Index].Cells[3].Value));
-                        m_invBuilder.modifyItemQuanity(row.Index, Convert.ToInt32(dgvInvoice.Rows[row.Index].Cells[4].Value));
+                        m_invBuilder.modifyItemDiscount(row.Index, Convert.ToDecimal(dgvInvoice.Rows[row.Index].Cells[4].Value));
+                        m_invBuilder.modifyItemQuanity(row.Index, Convert.ToInt32(dgvInvoice.Rows[row.Index].Cells[5].Value));
                     }
                     catch (Exception)
                     {
-                        MessageBox.Show("Invalid values given, use only numbers for Quantity and price");
+                        MessageBox.Show("Invalid values given, use only numbers for Quantity, discount and price");
                         return;
                     }
                 }
@@ -278,6 +280,9 @@ namespace PatientManager.Forms
                 // Position the current invoice as the datasource of the form;
                 m_currentInvoice = m_invBuilder.Invoice;
                 invoiceBindingSource.DataSource = m_currentInvoice;
+
+                // Set the invoice total value at top of form
+                lblTotal.Text = "$" + Convert.ToSingle(Database.InvoiceMgr.Instance.getInvoiceTotal(m_currentInvoice));
                 
                 // Set some flags to indicate update mode now
                 m_bIsUpdate = true;
@@ -386,6 +391,23 @@ namespace PatientManager.Forms
         private void tsbStatement_Click(object sender, EventArgs e)
         {
             generateAccountStatement(false);
+        }
+
+        private void dgvInvoice_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            // Check if entered discount is valid
+            if (e.ColumnIndex == 4)
+            {
+                if (!Utility.IsNumeric(dgvInvoice.Rows[e.RowIndex].Cells[4].Value))
+                {
+                    dgvInvoice.Rows[e.RowIndex].Cells[4].Value = 0;
+                }
+            }
+        }
+
+        private void cbWriteOff_CheckedChanged(object sender, EventArgs e)
+        {
+            m_invBuilder.writeOffInvoice(cbWriteOff.Checked);
         }
 
     }

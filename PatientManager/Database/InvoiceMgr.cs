@@ -47,10 +47,30 @@ namespace PatientManager.Database
                    select inv;
         }
 
+        /// <summary>
+        /// Geta all invoices for a patient up to a specified date
+        /// </summary>
+        /// <param name="patID"></param>
+        /// <param name="upTo"></param>
+        /// <returns></returns>
         public IQueryable<invoice> getInvoicesByPatientID(int patID, DateTime upTo)
         {
             return from inv in Context.invoices
                    where inv.patID == patID && inv.invDate < upTo
+                   select inv;
+        }
+
+        /// <summary>
+        /// Gets app invoices for a patient in a date range
+        /// </summary>
+        /// <param name="patID"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
+        public IQueryable<invoice> getInvoicesByPatientID(int patID, DateTime startDate, DateTime endDate)
+        {
+            return from inv in Context.invoices
+                   where inv.patID == patID && inv.invDate >= startDate && inv.invDate <= endDate
                    select inv;
         }
 
@@ -227,7 +247,7 @@ namespace PatientManager.Database
         /// <param name="invID">ID of the invoice to add a new line to</param>
         /// <param name="itryID">If of the inventory item to add</param>
         /// <param name="qty">Quantity of inventory item to add</param>
-        public void addLineToInvoice(int invID, int itryID, int qty, decimal? price)
+        public void addLineToInvoice(int invID, int itryID, int qty, decimal? price, decimal discount)
         {
             inv_line line = new inv_line();
             line.invID = invID;
@@ -288,7 +308,9 @@ namespace PatientManager.Database
                 {
                     if (invLine.linePrice != null)
                     {
-                        total += (decimal)invLine.linePrice * invLine.itryQty;
+                        // Old version for when discount was a percentage, changed to dollage ammount per client request
+                        //total += (decimal)invLine.linePrice * invLine.itryQty * (100 - invLine.line_discount)/100;
+                        total += (decimal)(invLine.linePrice * invLine.itryQty) - invLine.line_discount;
                     }
                 }
             }
@@ -302,7 +324,10 @@ namespace PatientManager.Database
             List<invoice> invoices = getInvoicesByPatientID(patID).ToList();
             foreach (var inv in invoices)
             {
-                total += getInvoiceTotal(inv.invID);
+                if (inv.invStatus != 1)
+                {
+                    total += getInvoiceTotal(inv.invID);
+                }
             }
 
             return total;
@@ -311,7 +336,19 @@ namespace PatientManager.Database
         public decimal getPatientsTotalBilling(int patID, DateTime upTo)
         {
             decimal total = 0;
-            List<invoice> invoices = getInvoicesByPatientID(patID, upTo).ToList();
+            List<invoice> invoices = getInvoicesByPatientID(patID, upTo.Date).ToList();
+            foreach (var inv in invoices)
+            {
+                total += getInvoiceTotal(inv.invID);
+            }
+
+            return total;
+        }
+
+        public decimal getPatientsTotalBilling(int patID, DateTime startDate, DateTime endDate)
+        {
+            decimal total = 0;
+            List<invoice> invoices = getInvoicesByPatientID(patID, startDate.Date, endDate.Date).ToList();
             foreach (var inv in invoices)
             {
                 total += getInvoiceTotal(inv.invID);

@@ -55,9 +55,24 @@ namespace PatientManager.Database.Reporting
 
         public decimal Amount
         {
-            get { return m_amount * Qty; }
+            get { return (m_amount * Qty) - Discount; }
             set { m_amount = value; }
         }
+
+        private decimal m_discount;
+
+        public decimal Discount 
+        { 
+            set
+            {
+                m_discount = value;
+            }
+            get
+            {
+                return m_discount;
+            }
+        }
+
 
         public patient Patient { set { m_patient = value; } get { return m_patient; } }
 
@@ -99,7 +114,9 @@ namespace PatientManager.Database.Reporting
                        Type = patHist.Type,
                        Description = patHist.Description,
                        Qty = (patHist.itryQty != null) ? (int)patHist.itryQty : 1,
-                       Amount = (decimal)patHist.Amount
+                       //Amount = (decimal)patHist.Amount - (decimal)patHist.line_discount
+                       Amount = (decimal)patHist.Amount,
+                       Discount = patHist.line_discount
                    }).ToList();
             // From what I'm assuming is a bug in mysql connector 4.6.5, I can't set the objects date fields while querying
             // for the data. So here is an extra stupid just to get the data in.

@@ -36,6 +36,7 @@
       `PatientAccountHistoryView`.`Description`, 
       `PatientAccountHistoryView`.`itryQty`, 
       `PatientAccountHistoryView`.`Amount`, 
+      `PatientAccountHistoryView`.`line_discount`, 
       `PatientAccountHistoryView`.`docID`
       FROM `PatientAccountHistoryView` AS `PatientAccountHistoryView`</DefiningQuery>
           </EntitySet>
@@ -113,6 +114,7 @@
           <Property Name="itryID" Type="int" Nullable="false" />
           <Property Name="itryQty" Type="int" Nullable="false" />
           <Property Name="linePrice" Type="decimal" Scale="2" />
+          <Property Name="line_discount" Type="decimal" Nullable="false" Precision="5" Scale="2" />
         </EntityType>
         <EntityType Name="inventory">
           <Key>
@@ -236,6 +238,7 @@
         <EntityType Name="PatientAccountHistoryView">
           <Key>
             <PropertyRef Name="Type" />
+            
             <PropertyRef Name="docID" />
           </Key>
           <Property Name="Date" Type="date" />
@@ -244,6 +247,7 @@
           <Property Name="Description" Type="varchar" MaxLength="50" />
           <Property Name="itryQty" Type="int" />
           <Property Name="Amount" Type="decimal" Scale="2" />
+          <Property Name="line_discount" Type="decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="docID" Type="int" Nullable="false" />
         </EntityType>
       </Schema></edmx:StorageModels>
@@ -423,6 +427,7 @@
           <NavigationProperty Name="invoice" Relationship="PatientManagerModel.invoiceinv_line" FromRole="inv_line" ToRole="invoice" />
           <NavigationProperty Name="inventory" Relationship="PatientManagerModel.inventoryinv_line" FromRole="inv_line" ToRole="inventory" />
           <Property Type="Decimal" Name="linePrice" />
+          <Property Type="Decimal" Name="line_discount" Nullable="false" />
         </EntityType>
         <EntityType Name="inventory">
           <Key>
@@ -736,6 +741,7 @@
           <NavigationProperty Name="patient" Relationship="PatientManagerModel.PatientAccountHistoryViewpatient" FromRole="PatientAccountHistoryView" ToRole="patient" />
           <Property Type="Int32" Name="docID" Nullable="false" />
           <NavigationProperty Name="doctor" Relationship="PatientManagerModel.PatientAccountHistoryViewdoctor" FromRole="PatientAccountHistoryView" ToRole="doctor" />
+          <Property Type="Decimal" Name="line_discount" Nullable="false" DefaultValue="0" />
         </EntityType>
         <Association Name="PatientAccountHistoryViewpatient">
           <End Type="PatientManagerModel.PatientAccountHistoryView" Role="PatientAccountHistoryView" Multiplicity="*" />
@@ -829,7 +835,8 @@
             <ScalarProperty Name="docActive" ColumnName="docActive" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="inv_line"><EntityTypeMapping TypeName="PatientManagerModel.inv_line"><MappingFragment StoreEntitySet="inv_line">
-            <ScalarProperty Name="linePrice" ColumnName="linePrice" />
+            <ScalarProperty Name="line_discount" ColumnName="line_discount" />
+                <ScalarProperty Name="linePrice" ColumnName="linePrice" />
                 <ScalarProperty Name="invID" ColumnName="invID" />
             <ScalarProperty Name="itryID" ColumnName="itryID" />
             <ScalarProperty Name="itryQty" ColumnName="itryQty" />
@@ -933,6 +940,7 @@
           <EntitySetMapping Name="PatientAccountHistoryViews">
             <EntityTypeMapping TypeName="PatientManagerModel.PatientAccountHistoryView">
               <MappingFragment StoreEntitySet="PatientAccountHistoryView">
+                <ScalarProperty Name="line_discount" ColumnName="line_discount" />
                 <ScalarProperty Name="docID" ColumnName="docID" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="itryQty" ColumnName="itryQty" />

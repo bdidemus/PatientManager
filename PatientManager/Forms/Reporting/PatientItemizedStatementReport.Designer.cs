@@ -1,6 +1,6 @@
 ﻿namespace PatientManager.Forms.Reporting
 {
-    partial class PatientAccountHistoryReport
+    partial class PatientItemizedStatementReport
     {
         /// <summary>
         /// Required designer variable.

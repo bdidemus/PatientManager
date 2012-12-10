@@ -24,6 +24,17 @@ namespace PatientManager.Database
             get { return m_itryDesc; }
             set { m_itryDesc = value; }
         }
+        public decimal Line_Discount
+        {
+            get
+            {
+                return m_line_discount;
+            }
+            set
+            {
+                m_line_discount = value;
+            }
+        }
         public DateTime invDate { get { return m_invDate; } set { m_invDate = value; } }
 
         public patient Patient { get { return m_patient; } set { m_patient = value; } }
@@ -50,11 +61,32 @@ namespace PatientManager.Database
         private decimal m_linePrice;
         private String m_itryDesc;
         private DateTime m_invDate;
+        private decimal m_line_discount;
 
         // Patient
         private patient m_patient;
 
         // Doctor
         private doctor m_doctor;
+
+        public static IQueryable<InvoiceViewModel> GetInvoices(int? invID)
+        {
+            var context = new PatientManagerEntities();
+            var query = from inv in context.inv_line
+                        where inv.invID == invID
+                        select new InvoiceViewModel
+                        {
+                            invID = inv.invoice.invID,
+                            itryName = inv.inventory.itryName,
+                            ItryDesc = inv.inventory.itryDesc,
+                            ItryQty = inv.itryQty,
+                            LinePrice = (decimal)inv.linePrice,
+                            Line_Discount = (decimal)inv.line_discount,
+                            invDate = inv.invoice.invDate,
+                            Patient = inv.invoice.patient,
+                            Doctor = inv.invoice.doctor
+                        };
+            return query;
+        }
     }
 }

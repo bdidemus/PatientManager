@@ -2105,12 +2105,14 @@ namespace PatientManager.Database
         /// <param name="invID">Initial value of the invID property.</param>
         /// <param name="itryID">Initial value of the itryID property.</param>
         /// <param name="itryQty">Initial value of the itryQty property.</param>
-        public static inv_line Createinv_line(global::System.Int32 invID, global::System.Int32 itryID, global::System.Int32 itryQty)
+        /// <param name="line_discount">Initial value of the line_discount property.</param>
+        public static inv_line Createinv_line(global::System.Int32 invID, global::System.Int32 itryID, global::System.Int32 itryQty, global::System.Decimal line_discount)
         {
             inv_line inv_line = new inv_line();
             inv_line.invID = invID;
             inv_line.itryID = itryID;
             inv_line.itryQty = itryQty;
+            inv_line.line_discount = line_discount;
             return inv_line;
         }
 
@@ -2218,6 +2220,30 @@ namespace PatientManager.Database
         private Nullable<global::System.Decimal> _linePrice;
         partial void OnlinePriceChanging(Nullable<global::System.Decimal> value);
         partial void OnlinePriceChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal line_discount
+        {
+            get
+            {
+                return _line_discount;
+            }
+            set
+            {
+                Online_discountChanging(value);
+                ReportPropertyChanging("line_discount");
+                _line_discount = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("line_discount");
+                Online_discountChanged();
+            }
+        }
+        private global::System.Decimal _line_discount;
+        partial void Online_discountChanging(global::System.Decimal value);
+        partial void Online_discountChanged();
 
         #endregion
     
@@ -4066,6 +4092,30 @@ namespace PatientManager.Database
         private global::System.Int32 _docID;
         partial void OndocIDChanging(global::System.Int32 value);
         partial void OndocIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal line_discount
+        {
+            get
+            {
+                return _line_discount;
+            }
+            set
+            {
+                Online_discountChanging(value);
+                ReportPropertyChanging("line_discount");
+                _line_discount = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("line_discount");
+                Online_discountChanged();
+            }
+        }
+        private global::System.Decimal _line_discount = 0m;
+        partial void Online_discountChanging(global::System.Decimal value);
+        partial void Online_discountChanged();
 
         #endregion
     

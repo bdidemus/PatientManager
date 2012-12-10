@@ -7,6 +7,12 @@ namespace PatientManager
 {
     public class InvoiceBuilder
     {
+        private LinkedList<Database.inv_line> m_lstInvLine = new LinkedList<Database.inv_line>();
+        private Database.invoice m_invoice;
+        private bool m_bIsSaved;
+        private Database.InvoiceMgr m_invMgr;
+        private Database.InventoryMgr m_itryMgr = new Database.InventoryMgr();
+
         public InvoiceBuilder(int invID)
         {
             m_invMgr = Database.InvoiceMgr.Instance;
@@ -31,7 +37,7 @@ namespace PatientManager
         /// <param name="itryID"></param>
         /// <param name="qty"></param>
         /// <param name="price"></param>
-        public Database.inventory addNewItem(int invID, int itryID, int qty, decimal? price = null)
+        public Database.inventory addNewItem(int invID, int itryID, int qty, decimal? price = null, decimal discount = 0)
         {
             Database.inventory item = m_itryMgr.getItemByID(itryID);
             price = (price == null) ? item.itrySellingPrive : price;
@@ -40,6 +46,7 @@ namespace PatientManager
             inv_line.itryQty = qty;
             inv_line.itryID = itryID;
             inv_line.linePrice = price;
+            inv_line.line_discount = discount;
             m_lstInvLine.AddLast(inv_line);
             return item;
         }
@@ -52,6 +59,11 @@ namespace PatientManager
         public void modifyItemQuanity(int row, int qty)
         {
             m_lstInvLine.ElementAt(row).itryQty = qty;
+        }
+
+        public void modifyItemDiscount(int row, decimal discount)
+        {
+            m_lstInvLine.ElementAt(row).line_discount = discount;
         }
 
         /// <summary>
@@ -156,15 +168,22 @@ namespace PatientManager
             return false;
         }
 
-        private LinkedList<Database.inv_line> m_lstInvLine = new LinkedList<Database.inv_line>();
-        private Database.invoice m_invoice;
-        private bool m_bIsSaved;
-        private Database.InvoiceMgr m_invMgr;
-        private Database.InventoryMgr m_itryMgr = new Database.InventoryMgr();
-
-        internal void deleteInvoice(Database.invoice inv)
+        public void deleteInvoice(Database.invoice inv)
         {
             Database.InvoiceMgr.Instance.deleteInvoice(inv);
+        }
+
+        /// <summary>
+        /// Sets the status field in the database to 1 or 0. Right now 
+        /// this filed is only used to determine if an  invoice has been written 
+        /// off or not.
+        /// A written off invoice does not show up in any quries and does not
+        /// affect a patients account or any accounting summary reports.
+        /// </summary>
+        /// <param name="writeOff"></param>
+        public void writeOffInvoice(bool writeOff)
+        {
+            m_invoice.invStatus = (writeOff) ? 1 : 0;
         }
     }
 }

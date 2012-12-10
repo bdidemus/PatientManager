@@ -33,5 +33,13 @@ namespace PatientManager.Database
 
             return payMgr.getPatientTotalPayments(this.patID, upTo) - invMgr.getPatientsTotalBilling(this.patID, upTo);
         }
+
+        public decimal rangedAccountBalance(DateTime startDate, DateTime endDate)
+        {
+            Database.InvoiceMgr invMgr = InvoiceMgr.Instance;
+            Database.PaymentMgr payMgr = new Database.PaymentMgr();
+
+            return payMgr.getPatientTotalPayments(this.patID, startDate, endDate) - invMgr.getPatientsTotalBilling(this.patID, startDate, endDate);
+        }
     }
 }

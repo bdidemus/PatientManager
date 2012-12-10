@@ -55,6 +55,13 @@ namespace PatientManager.Database
                    select p;
         }
 
+        public IQueryable<payment> getPaymentsForPatient(int patID, DateTime startDate, DateTime endDate)
+        {
+            return from p in Context.payments
+                   where p.patID == patID && p.payDate >= startDate && p.payDate <= endDate
+                   select p;
+        }
+
         public decimal getPatientTotalPayments(int patID)
         {
             decimal total = 0;
@@ -70,7 +77,18 @@ namespace PatientManager.Database
         public decimal getPatientTotalPayments(int patID, DateTime upTo)
         {
             decimal total = 0;
-            IQueryable<payment> pay = getPaymentsForPatient(patID, upTo);
+            IQueryable<payment> pay = getPaymentsForPatient(patID, upTo.Date);
+            foreach (var p in pay)
+            {
+                total += p.payAmount;
+            }
+            return total;
+        }
+
+        public decimal getPatientTotalPayments(int patID, DateTime startDate, DateTime endDate)
+        {
+            decimal total = 0;
+            IQueryable<payment> pay = getPaymentsForPatient(patID, startDate.Date, endDate.Date);
             foreach (var p in pay)
             {
                 total += p.payAmount;

@@ -6,17 +6,32 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
+
 
 namespace PatientManager.Forms.Reporting
 {
     public partial class AccountsRecivableReportForm : Form
     {
-        public AccountsRecivableReportForm(int docID)
+        private int docID;
+        private DateTime startDate, endDate;
+        private Dialogs.AccountsRecivableDialog.updateFormProgress callBack;
+
+
+        public AccountsRecivableReportForm(int docID, DateTime startDate, DateTime endDate, Dialogs.AccountsRecivableDialog.updateFormProgress callback)
         {
             InitializeComponent();
 
+            this.docID = docID;
+            this.startDate = startDate;
+            this.endDate = endDate;
+            this.callBack = callback;
+        }
+
+        public void loadData()
+        {
             BindingSource accRecBindingSource = new BindingSource();
-            accRecBindingSource.DataSource = Database.Reporting.AccountsReceivableModel.getAccountsReceiveableModel(docID);
+            accRecBindingSource.DataSource = Database.Reporting.AccountsReceivableModel.getAccountsReceiveableModel(startDate, endDate, callBack, docID);
             AccountsReceivable1.SetDataSource(accRecBindingSource);
 
             if (docID > 0)
@@ -24,8 +39,6 @@ namespace PatientManager.Forms.Reporting
                 Database.DoctorMgr docMgr = new Database.DoctorMgr();
                 AccountsReceivable1.SetParameterValue("DoctorName", docMgr.getDoctor(docID).docFullName);
             }
-
         }
-
     }
 }
